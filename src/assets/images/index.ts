@@ -13,7 +13,7 @@ export { default as MEN } from './men.png';
 export { default as NewSpringKnits } from './new-spring-knits.jpg';
 export { default as NewWinterKnits } from './new-winter-knits.jpg';
 export { default as Paypal } from './paypal.png';
-export { default as ReadyForParty } from './ready-for-party.jpg';
+export { default as ReadyToParty } from './ready-to-party.jpg';
 export { default as SNEAKERS } from './sneakers.png';
 export { default as SPORTS } from './sports.png';
 export { default as SubscriptionBg } from './subscription-bg.png';
