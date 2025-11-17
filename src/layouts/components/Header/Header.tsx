@@ -497,7 +497,7 @@ const Header = ({
   const navigate = useNavigate();
 
   return (
-    <div className="sticky top-0 left-0 shadow-md h-16 sm:h-20 lg:h-24 px-6 bg-white max-w-[1920px] z-20">
+    <div className="sticky top-0 left-0 shadow-md h-16 sm:h-20 lg:h-24 px-6 bg-white max-w-[1920px] z-30">
       <Flex
         gap={10}
         align="center"
