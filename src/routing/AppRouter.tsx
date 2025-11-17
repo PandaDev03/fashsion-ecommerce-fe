@@ -6,7 +6,7 @@ import RoleBasedRoute from './RoleBasedRoute';
 import routes from './routes';
 
 import AdminLayout from '~/layouts/AdminLayout';
-import NotFountPage from '~/pages/public/NotFountPage';
+import NotFountPage from '~/pages/public/NotFount/NotFountPage';
 import Loading from '~/shared/components/Loading/Loading';
 
 const AppRouter = () => {

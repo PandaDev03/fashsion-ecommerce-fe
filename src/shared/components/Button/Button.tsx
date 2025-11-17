@@ -16,7 +16,7 @@ type DisplayType =
   | 'text'
   | 'dashed';
 
-export interface IButtonProps {
+export interface ButtonProps {
   fill?: boolean;
   title: ReactNode;
   type?: ButtonType;
@@ -46,7 +46,7 @@ const Button = ({
   displayType = 'primary',
   loading = false,
   ...props
-}: IButtonProps) => {
+}: ButtonProps) => {
   const classes = cx('button', 'rounded-md transition duration-300', {
     fill,
     [className]: className,

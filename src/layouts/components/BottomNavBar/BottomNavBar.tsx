@@ -2,7 +2,7 @@ import { Badge, Flex } from 'antd';
 import { memo, ReactElement } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { Cart, Home, Search, User } from '~/assets/svg';
+import { Cart, HomeOutlined, Search, User } from '~/assets/svg';
 import { PATH } from '~/shared/utils/path';
 
 interface BottomNavBar {
@@ -50,7 +50,7 @@ const BottomNavBar = ({
     },
     {
       key: 'home',
-      children: <Home className="cursor-pointer" />,
+      children: <HomeOutlined className="cursor-pointer" />,
       onClick: () => navigate(PATH.HOME),
     },
     {
