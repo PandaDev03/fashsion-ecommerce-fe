@@ -1,11 +1,11 @@
-import { Col, Form as AntForm, FormInstance, FormProps, Row } from 'antd';
+import { Form as AntForm, Col, FormInstance, FormProps, Row } from 'antd';
 import { InternalNamePath } from 'antd/es/form/interface';
 import classNames from 'classnames';
 import { memo, ReactNode } from 'react';
 
 import Button from '../Button/Button';
 
-interface IForm extends FormProps {
+interface IProps extends FormProps {
   loading?: boolean;
   children: ReactNode;
   className?: string;
@@ -37,7 +37,7 @@ const Form = ({
   onCancel,
   onFinish,
   ...props
-}: IForm) => {
+}: IProps) => {
   const customClass = classNames('w-full', className);
 
   const checkFormValidate = async () => {

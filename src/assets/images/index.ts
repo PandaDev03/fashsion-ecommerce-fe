@@ -6,6 +6,7 @@ export { default as BANNER_4_MEN_COLLECTION } from './banner-4-men-collection.jp
 export { default as BANNER_5_KID_COLLECTION } from './banner-5-kid-collection.jpg';
 export { default as BANNER_6_WOMEN_COLLECTION } from './banner-6-women-collection.jpg';
 export { default as BANNER_8_WINTER_COLLECTION } from './banner-8-winter-collection.jpg';
+export { default as FILE_NOT_FOUND_ILLUSTRATION } from './file_not_found_illustration.jpg';
 export { default as GOOGLE_LOGO } from './google_logo.png';
 export { default as KIDS } from './kids.png';
 export { default as MAN } from './man.png';
@@ -16,7 +17,7 @@ export { default as Paypal } from './paypal.png';
 export { default as ReadyToParty } from './ready-to-party.jpg';
 export { default as SNEAKERS } from './sneakers.png';
 export { default as SPORTS } from './sports.png';
-export { default as SubscriptionBg } from './subscription-bg.png';
+export { default as SUBSCRIPTION_BG } from './subscription-bg.png';
 export { default as SUNGLASS } from './sunglass.png';
 export { default as VISA } from './visa.png';
 export { default as WATCH } from './watch.png';

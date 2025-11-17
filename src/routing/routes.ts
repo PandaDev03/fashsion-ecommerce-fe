@@ -13,33 +13,42 @@ export interface AppRoute {
 }
 
 const routes: AppRoute[] = [
+  // NOT FOUND
+  {
+    path: PATH.NOT_FOUND,
+    layout: MainLayout,
+    element: React.lazy(() => import('~/pages/public/NotFount/NotFountPage')),
+  },
+
   // PUBLIC ROUTES
   {
     path: PATH.HOME,
     layout: MainLayout,
-    element: React.lazy(() => import('~/pages/public/HomePage')),
+    element: React.lazy(() => import('~/pages/public/Home/HomePage')),
   },
   {
-    path: PATH.LOGIN,
+    path: PATH.PRODUCTS,
     layout: MainLayout,
-    element: React.lazy(() => import('~/pages/auth/LoginPage')),
+    element: React.lazy(() => import('~/pages/public/Product/ProductPage')),
   },
 
   // PROTECTED ROUTES
   {
-    path: PATH.PROFILE,
+    path: PATH.ACCOUNT,
     isProtected: true,
     layout: MainLayout,
-    element: React.lazy(() => import('~/pages/user/ProfilePage')),
+    element: React.lazy(() => import('~/pages/user/Account/AccountPage')),
   },
 
   // RBAC ROUTE
   {
-    path: PATH.ADMIN_DASHBOARD,
     isProtected: true,
     layout: AdminLayout,
+    path: PATH.ADMIN_DASHBOARD,
     requiredRoles: ['ADMIN', 'MANAGER'],
-    element: React.lazy(() => import('~/pages/admin/AdminDashboard')),
+    element: React.lazy(
+      () => import('~/pages/admin/Dashboard.tsx/AdminDashboard')
+    ),
   },
 ];
 

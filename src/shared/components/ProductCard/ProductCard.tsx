@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { HTMLAttributes, memo, ReactNode } from 'react';
 import { PlaceholderMedium, PlaceholderSmall } from '~/assets/svg';
 
-interface ProductCard {
+interface ProductCardProps {
   imgSrc: string;
   title: ReactNode;
   subTitle: ReactNode;
@@ -16,6 +16,7 @@ interface ProductCard {
     img?: HTMLAttributes<HTMLElement>['className'];
     wrapper?: HTMLAttributes<HTMLElement>['className'];
   };
+  onClick?: () => void;
 }
 
 const ProductCard = ({
@@ -28,7 +29,8 @@ const ProductCard = ({
   size = 'md',
   vertical = false,
   effect = 'scale',
-}: ProductCard) => {
+  onClick,
+}: ProductCardProps) => {
   return (
     <Flex
       vertical={vertical}
@@ -39,6 +41,7 @@ const ProductCard = ({
           ? 'transition duration-200 ease-in-out transform hover:-translate-y-1 hover:shadow-product'
           : ''
       )}
+      onClick={onClick}
     >
       <div
         className={classNames(
@@ -91,9 +94,7 @@ const ProductCard = ({
         <h4 className="font-semibold text-sm sm:text-base md:text-sm lg:text-base xl:text-lg text-primary mb-1 truncate">
           {title}
         </h4>
-        <p className="truncate text-xs lg:text-sm text-body">
-          {subTitle}
-        </p>
+        <p className="truncate text-xs lg:text-sm text-body">{subTitle}</p>
         <Flex align="center" className="gap-x-2 mt-2.5!">
           <p className="font-semibold text-sm lg:text-lg text-primary">
             ${price}

@@ -8,7 +8,7 @@ import 'swiper/css/bundle';
 
 import SwiperNavButton from './SwiperNavButton';
 
-interface Swiper extends SwiperProps {
+interface ISwiper extends SwiperProps {
   arrows?: boolean;
   ref?: RefObject<SwiperTypes | null>;
 }
@@ -19,7 +19,7 @@ const Swiper = ({
   modules,
   children,
   ...props
-}: Swiper) => {
+}: ISwiper) => {
   const swiperRef = useRef<SwiperTypes>(null);
 
   const handleSwiperInit = (swiper: SwiperTypes) => {
