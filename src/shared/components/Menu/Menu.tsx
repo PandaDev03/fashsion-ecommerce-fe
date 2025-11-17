@@ -1,5 +1,6 @@
 import { Menu as AntMenu, MenuProps } from 'antd';
 import classNames from 'classnames';
+import { memo } from 'react';
 
 const Menu = ({ className, ...props }: MenuProps) => {
   const customClass = classNames('border-e-0!', className);
@@ -7,4 +8,4 @@ const Menu = ({ className, ...props }: MenuProps) => {
   return <AntMenu className={customClass} {...props} />;
 };
 
-export default Menu;
+export default memo(Menu);

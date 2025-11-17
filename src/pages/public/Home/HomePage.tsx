@@ -1,8 +1,8 @@
-import { Carousel, Flex, Form, Layout, Space } from 'antd';
+import { Carousel, Flex, Space } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import FormItem from 'antd/es/form/FormItem';
 import classNames from 'classnames';
-import { ReactElement, ReactNode } from 'react';
+import { ReactElement, ReactNode, useState } from 'react';
 import { SwiperSlide } from 'swiper/react';
 
 import {
@@ -22,7 +22,7 @@ import {
   ReadyToParty,
   SNEAKERS,
   SPORTS,
-  SubscriptionBg,
+  SUBSCRIPTION_BG,
   SUNGLASS,
   WATCH,
   WOMAN,
@@ -30,8 +30,11 @@ import {
 } from '~/assets/images';
 import { Link } from '~/assets/svg';
 import Button from '~/shared/components/Button/Button';
+import Form from '~/shared/components/Form/Form';
 import Image from '~/shared/components/Image/Image';
 import Input from '~/shared/components/Input/Input';
+import Layout from '~/shared/components/Layout/Layout';
+import ProductModal, { Size } from '~/shared/components/Modal/ProductModal';
 import ProductCard from '~/shared/components/ProductCard/ProductCard';
 import Swiper from '~/shared/components/Swiper/Swiper';
 import { useBreakpoint } from '~/shared/hooks/useBreakpoint';
@@ -43,8 +46,8 @@ interface Category {
   subTitle: ReactNode;
 }
 
-interface Product {
-  key: string;
+export interface Product {
+  key?: string;
   cols?: number;
   rows?: number;
   title: ReactNode;
@@ -189,7 +192,7 @@ const featuredProducts: Product[] = [
 const flashSales: Product[] = [
   {
     key: 'sung-glass',
-    img: 'https://chawkbazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fproducts%2Fp-27-md.png&w=384&q=100',
+    img: 'https://chawkbazar.vercel.app/assets/images/products/p-25-m.png',
     title: 'Kính râm phân cực Wayfarer',
     subTitle:
       'Sản phẩm này chỉ được đổi sang sản phẩm có cùng kích thước hoặc kích thước khác nếu có và không được trả lại.',
@@ -198,7 +201,7 @@ const flashSales: Product[] = [
   },
   {
     key: 'gucci-carlton',
-    img: 'https://chawkbazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fproducts%2Fp-8-md.png&w=384&q=100',
+    img: 'https://chawkbazar.vercel.app/assets/images/products/p-8-m.png',
     title: 'Gucci Carlton Anh',
     subTitle: 'Váy chữ A dệt kim dáng midi, cổ tròn, không tay, viền thẳng.',
     price: 14.99,
@@ -206,7 +209,7 @@ const flashSales: Product[] = [
   },
   {
     key: 'nike-shoes',
-    img: 'https://chawkbazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fproducts%2Fp-24-md.png&w=384&q=100',
+    img: 'https://chawkbazar.vercel.app/assets/images/products/p-24-m.png',
     title: 'Giày NIKE',
     subTitle:
       'NIKE 2020 Black White là một phối màu đơn sắc tinh tế, thuộc dòng giày công nghệ cao mới nhất của thương hiệu. Mẫu giày này được ra mắt lần đầu vào cuối năm ngoái và hiện là đôi giày hiệu suất chủ lực của Jordan Brand.',
@@ -215,7 +218,7 @@ const flashSales: Product[] = [
   },
   {
     key: 'adidas-shoes',
-    img: 'https://chawkbazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fproducts%2Fp-26-md.png&w=384&q=100',
+    img: 'https://chawkbazar.vercel.app/assets/images/products/p-26-m.png',
     title: 'Giày Adidas màu đen',
     subTitle: 'Áo choàng không tay màu đen dành cho nam.',
     price: 45,
@@ -223,7 +226,7 @@ const flashSales: Product[] = [
   },
   {
     key: 'wide-legs-trousers',
-    img: 'https://chawkbazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fproducts%2Fp-16-md.png&w=384&q=100',
+    img: 'https://chawkbazar.vercel.app/assets/images/products/p-16-m.png',
     title: 'Quần ống rộng Armani',
     subTitle:
       'Sự thanh lịch đơn sắc. Chiếc quần ống rộng thoải mái này được làm từ chất liệu cotton hữu cơ mềm mại, bền vững với khả năng co giãn cơ học giúp sản phẩm dễ dàng tái chế.',
@@ -232,7 +235,7 @@ const flashSales: Product[] = [
   },
   {
     key: 'zara-shoes',
-    img: 'https://chawkbazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fproducts%2Fp-3.png&w=384&q=100',
+    img: 'https://chawkbazar.vercel.app/assets/images/products/p-3-m.png',
     title: 'Giày Zara màu xanh lá cây',
     subTitle:
       'Giày dép là loại quần áo được mang vào chân, ban đầu có mục đích bảo vệ khỏi những tác động của môi trường, thường liên quan đến kết cấu mặt đất và nhiệt độ.',
@@ -240,7 +243,7 @@ const flashSales: Product[] = [
   },
   {
     key: 'tissot-classic',
-    img: 'https://chawkbazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fproducts%2Fp-30-md.png&w=384&q=100',
+    img: 'https://chawkbazar.vercel.app/assets/images/products/p-30-m.png',
     title: 'Tissot cổ điển',
     subTitle:
       'Mẫu Submariner mới hiện được trang bị bộ máy mạnh mẽ calibre 3235 Perpetual của Rolex. Là phiên bản nâng cấp từ bộ máy calibre 3135.',
@@ -352,7 +355,7 @@ const topProducts: Product[] = [
     title: 'H&M Global Desi',
     subTitle:
       'Áo dệt trơn màu xanh lam, viền cong với chi tiết tua rua có dây đeo vai và không tay.',
-    img: 'https://chawkbazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fproducts%2Fp-22-s.png&w=384&q=100',
+    img: 'https://chawkbazar.vercel.app/assets/images/products/p-22-m.png',
   },
   {
     key: 'wayfarer',
@@ -361,7 +364,7 @@ const topProducts: Product[] = [
     title: 'Kính râm phân cực Wayfarer',
     subTitle:
       'Sản phẩm này chỉ được đổi sang sản phẩm có cùng kích thước hoặc kích thước khác nếu có và không được trả lại.',
-    img: 'https://chawkbazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fproducts%2Fp-25-s.png&w=384&q=100',
+    img: 'https://chawkbazar.vercel.app/assets/images/products/p-25-m.png',
   },
   {
     key: 'nike-shoes',
@@ -370,7 +373,7 @@ const topProducts: Product[] = [
     title: 'Giày NIKE',
     subTitle:
       'NIKE 2020 Black White là một phối màu đơn sắc tinh tế, thuộc dòng giày công nghệ cao mới nhất của thương hiệu. Mẫu giày này được ra mắt lần đầu vào cuối năm ngoái và hiện là đôi giày hiệu suất chủ lực của Jordan Brand.',
-    img: 'https://chawkbazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fproducts%2Fp-24-s.png&w=384&q=100',
+    img: 'https://chawkbazar.vercel.app/assets/images/products/p-24-m.png',
   },
   {
     key: 'maniac-red-boys-2',
@@ -388,7 +391,7 @@ const topProducts: Product[] = [
     title: 'Giày NIKE',
     subTitle:
       'NIKE 2020 Black White là một phối màu đơn sắc tinh tế, thuộc dòng giày công nghệ cao mới nhất của thương hiệu. Mẫu giày này được ra mắt lần đầu vào cuối năm ngoái và hiện là đôi giày hiệu suất chủ lực của Jordan Brand.',
-    img: 'https://chawkbazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fproducts%2Fp-24-s.png&w=384&q=100',
+    img: 'https://chawkbazar.vercel.app/assets/images/products/p-24-m.png',
   },
 ];
 
@@ -518,18 +521,21 @@ const shopByGender = [
   },
 ];
 
+const MIN_QUANTITY = 1;
+const MAX_QUANTITY = 99;
+
 const HomePage = () => {
   const [subscriptionForm] = useForm();
-  const { is2Xs, isXs, isSm, isMd, isLg, isXl } = useBreakpoint();
+  const { is2Xs, isSm, isMd, isLg, isXl } = useBreakpoint();
 
-  console.log({
-    is2Xs: is2Xs,
-    isXs: isXs,
-    isSm: isSm,
-    isMd: isMd,
-    isLg: isLg,
-    isXl: isXl,
-  });
+  const [isOpen, setIsOpen] = useState(false);
+
+  const [color, setColor] = useState('');
+  const [size, setSize] = useState<Size>();
+  const [quantity, setQuantity] = useState(MIN_QUANTITY);
+  const [selectedProduct, setSelectedProduct] = useState<Product>(
+    {} as Product
+  );
 
   const pageContents: PageContent[] = [
     {
@@ -626,6 +632,7 @@ const HomePage = () => {
                 spanClasses?.cols[product?.cols || 1],
                 spanClasses?.rows[product?.rows || 1]
               )}
+              onClick={() => handleSelectedProduct(product)}
             >
               <Flex align="center" justify="center" className="h-full">
                 <Image
@@ -675,9 +682,15 @@ const HomePage = () => {
           spaceBetween={10}
           slidesPerView={isXl ? 5 : isSm ? 3 : 2}
         >
-          {flashSales?.map(({ key, img, ...item }) => (
+          {flashSales?.map(({ key, ...item }) => (
             <SwiperSlide key={key}>
-              <ProductCard vertical size="sm" imgSrc={img} {...item} />
+              <ProductCard
+                vertical
+                size="sm"
+                imgSrc={item?.img}
+                onClick={() => handleSelectedProduct(item)}
+                {...item}
+              />
             </SwiperSlide>
           ))}
         </Swiper>
@@ -746,13 +759,14 @@ const HomePage = () => {
       title: 'Sản phẩm hàng đầu',
       children: (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-7">
-          {topProducts?.map(({ key, img, ...product }) => (
+          {topProducts?.map(({ key, ...product }) => (
             <ProductCard
               key={key}
-              imgSrc={img}
+              imgSrc={product?.img}
               customClassNames={{
                 img: 'shrink-0 w-32 sm:w-44 md:w-40 lg:w-52 2xl:w-56 3xl:w-64',
               }}
+              onClick={() => handleSelectedProduct(product)}
               {...product}
             />
           ))}
@@ -833,12 +847,13 @@ const HomePage = () => {
       title: 'Sản phẩm mới',
       children: (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-7 gap-y-8">
-          {newArrivals?.map(({ key, img, ...product }) => (
+          {newArrivals?.map(({ key, ...product }) => (
             <ProductCard
               vertical
               key={key}
               effect="lift"
-              imgSrc={img}
+              imgSrc={product?.img}
+              onClick={() => handleSelectedProduct(product)}
               {...product}
             />
           ))}
@@ -884,7 +899,7 @@ const HomePage = () => {
           <Swiper
             loop
             arrows
-            // autoplay
+            autoplay
             spaceBetween={15}
             slidesPerView={is2Xs ? 1 : 2}
           >
@@ -900,36 +915,34 @@ const HomePage = () => {
       children: (
         <Flex
           vertical
-          className="relative bg-[#f9f9f9] rounded-lg overflow-hidden px-5! sm:px-8! 2xl:px-24! sm:items-center xl:items-start py-10! md:py-14! lg:py-16!"
+          align={isXl ? 'start' : 'center'}
+          className="px-5! sm:px-8! md:px-16! 2xl:px-24! relative overflow-hidden sm:items-center xl:items-start rounded-lg bg-[#f9f9f9] py-10! md:py-14! lg:py-16!"
         >
-          <h3 className="font-bold text-lg text-primary max-md:text-center md:text-xl lg:text-2xl 2xl:text-3xl xl:leading-10 mb-2 md:mb-2.5 lg:mb-3 xl:mb-3.5">
-            Nhận lời khuyên của chuyên gia
-          </h3>
-          <p className="text-xs leading-6 text-body max-md:text-center md:text-sm md:leading-7">
-            Đăng ký nhận bản tin của chúng tôi và cập nhật thông tin mới nhất.
-          </p>
+          <div className="-mt-1.5 lg:-mt-2 xl:-mt-0.5 text-center ltr:xl:text-left rtl:xl:text-right mb-7 md:mb-8 lg:mb-9 xl:mb-0">
+            <h3 className="text-lg md:text-xl lg:text-2xl 2xl:text-3xl xl:leading-10 font-bold text-heading mb-2 md:mb-2.5 lg:mb-3 xl:mb-3.5">
+              Nhận lời khuyên của chuyên gia
+            </h3>
+            <p className="text-xs leading-6 text-body md:text-sm md:leading-7">
+              Đăng ký nhận bản tin của chúng tôi và cập nhật thông tin mới nhất.
+            </p>
+          </div>
           <Form
             layout="inline"
-            className="mt-7! z-10"
             form={subscriptionForm}
             onFinish={(values) => console.log(values)}
+            className="w-full shrink-0 sm:w-96 md:w-[545px] md:mt-7 z-10"
           >
-            <FormItem className="w-full md:max-w-[490px]">
-              <Input
-                className="h-14"
-                placeholder="Nhập email của bạn tại đây"
-              />
+            <FormItem className="w-full max-w-full md:max-w-[74%] mb-[2%]! md:mr-[2%]!">
+              <Input className="h-11 md:h-12 min-h-12" />
             </FormItem>
-            <FormItem className="max-md:w-full max-md:pt-1.5!">
-              <Button
-                title="Đăng ký"
-                className="w-full h-14 py-4! px-8!"
-                onClick={() => console.log('subscription')}
-              />
-            </FormItem>
+            <Button
+              title="Đăng ký"
+              className="w-full max-w-full md:max-w-[24%] text-sm leading-4 px-5! md:px-6! lg:px-8! py-4! md:py-3.5! lg:py-4! mt-3! sm:mt-0! md:h-full"
+              onClick={() => subscriptionForm.submit()}
+            />
           </Form>
           <div
-            style={{ backgroundImage: `url(${SubscriptionBg})` }}
+            style={{ backgroundImage: `url(${SUBSCRIPTION_BG})` }}
             className="hidden xl:block absolute w-full h-full right-0 top-0 bg-contain bg-right bg-no-repeat z-0"
           ></div>
         </Flex>
@@ -937,8 +950,29 @@ const HomePage = () => {
     },
   ];
 
+  const handleSelectedSize = (size: Size['size']) => {
+    setSize({ size });
+  };
+
+  const handleSelectedColor = (color: string) => {
+    setColor(color);
+  };
+
+  const handleSelectedProduct = (product: Product) => {
+    setIsOpen(true);
+    setSelectedProduct(product);
+  };
+
+  const handleDecrease = () => {
+    setQuantity((prev) => prev - (prev === MIN_QUANTITY ? 0 : 1));
+  };
+
+  const handleIncrease = () => {
+    setQuantity((prev) => prev + (prev === MAX_QUANTITY ? 0 : 1));
+  };
+
   return (
-    <Layout className="bg-white! min-h-screen">
+    <Layout>
       <Carousel draggable autoplaySpeed={5000} autoplay={{ dotDuration: true }}>
         <Image
           alt="banner-1"
@@ -978,6 +1012,19 @@ const HomePage = () => {
           return childElement();
         })}
       </Space>
+
+      <ProductModal
+        open={isOpen}
+        quantity={quantity}
+        selectedColor={color}
+        selectedSize={size?.size}
+        product={selectedProduct}
+        onDecrease={handleDecrease}
+        onIncrease={handleIncrease}
+        onSelectSize={handleSelectedSize}
+        onSelectColor={handleSelectedColor}
+        onCancel={() => setIsOpen(false)}
+      />
     </Layout>
   );
 };

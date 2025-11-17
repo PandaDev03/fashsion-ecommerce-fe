@@ -1,4 +1,4 @@
-import { Flex, Layout, MenuProps } from 'antd';
+import { Flex, MenuProps } from 'antd';
 import { ReactNode, useState } from 'react';
 
 import {
@@ -9,10 +9,11 @@ import {
   Twitter,
   Youtube,
 } from '~/assets/svg';
-import AuthModal from '~/shared/components/AuthModal/AuthModal';
 import Button from '~/shared/components/Button/Button';
 import Drawer from '~/shared/components/Drawer/Drawer';
+import Layout from '~/shared/components/Layout/Layout';
 import Menu from '~/shared/components/Menu/Menu';
+import AuthModal from '~/shared/components/Modal/AuthModal';
 import { BottomNavBar, Footer, Header } from './components';
 
 const siderMenu: MenuProps['items'] = [
@@ -452,7 +453,7 @@ const MainLayout = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <Layout className="min-h-screen bg-white! max-lg:pb-14">
+    <Layout className="max-lg:pb-14">
       <Header
         onOpenAuthModal={handleOpenAuthModal}
         onOpenCartDrawer={handleOpenCartDrawer}
